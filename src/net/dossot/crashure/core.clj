@@ -5,26 +5,28 @@
            java.util.Properties))
 
 (defn- set-command-paths
-  [server conf]
+  [server options]
   (let [cps (or
-              (:commands-path conf)
+              (:commands-paths options)
               ["/crash/commands/"])]
     (doseq [cp cps]
       (.addToCmdPath server
         (Path/get cp)))))
 
 (defn make-server
-  [conf]
+  [options]
   (let [classloader (.getContextClassLoader (Thread/currentThread))
-        properties (config/conf->Properties conf)]
+        properties (config/options->Properties options)
+        configurator (or (:configurator options) identity)]
 
     (doto (Bootstrap. classloader)
-      (set-command-paths conf)
-      (.setConfig properties))))
+      (.setConfig properties)
+      (set-command-paths options)
+      (configurator))))
 
 (defn start
-  [conf]
-  (doto (make-server conf)
+  [options]
+  (doto (make-server options)
     (.bootstrap)))
 
 (defn stop
