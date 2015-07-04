@@ -19,7 +19,8 @@ TBD
 
 ## TODO
 
-- Clojure REPL
-- SSH support
+- Authentication config
+- SSH config
+- Embedded Clojure REPL
 
 **Copyright © 2015 David Dossot - MIT License**

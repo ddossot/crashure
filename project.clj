@@ -11,12 +11,15 @@
                              [jonase/eastwood "0.2.1"]]
                    :dependencies [[org.crashub/crash.connectors.telnet ~crash-version]]}}
 
+  :eastwood {:exclude-namespaces [net.dossot.crashure]}
+
   :dependencies
   [
    [org.clojure/clojure "1.6.0"]
+   [prismatic/schema "0.4.3"]
+   [potemkin "0.3.13"]
 
    [org.crashub/crash.shell ~crash-version]
-   [prismatic/schema "0.4.3"]
   ]
 
   :release-tasks [["vcs" "assert-committed"]
