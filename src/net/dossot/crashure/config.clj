@@ -21,10 +21,15 @@
    :conf-paths    - a vector of paths from which configs are loaded
    :cmd-paths     - a vector of paths from which commands are loaded
                     (defaults to [(Path/get \"/crash/commands/\")])
-   :telnet        - the configuration of the telnet connector (optional)"
+   :classloader   - the classloader from which commands are loaded
+                    (defaults to the current context classloader)
+   :attributes    - a map of string/object entries
+   :telnet        - the configuration of the telnet connector"
   {(optional-key :configurator)  (=> Any Bootstrap)
    (optional-key :conf-paths)    [(either Str Path File FSDriver)]
    (optional-key :cmd-paths)     [(either Str Path File FSDriver)]
+   (optional-key :classloader)   ClassLoader
+   (optional-key :attributes)    {Str Any}
    (optional-key :telnet)        TelnetConfigSchema})
 
 (defn- set-telnet

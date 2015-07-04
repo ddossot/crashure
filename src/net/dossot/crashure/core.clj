@@ -5,35 +5,44 @@
            java.util.Properties))
 
 (defn- set-conf-paths
-  [server options]
+  [bootstrap options]
   (doseq [cp (:conf-paths options)]
-    (.addToConfPath server cp)))
+    (.addToConfPath bootstrap cp)))
 
 (defn- set-cmd-paths
-  [server options]
+  [bootstrap options]
   (let [cps (or
               (:cmd-paths options)
               [(Path/get "/crash/commands/")])]
     (doseq [cp cps]
-      (.addToCmdPath server cp))))
+      (.addToCmdPath bootstrap cp))))
 
-(defn make-server
+(defn- set-attributes
+  [bootstrap options]
+  (when-let [attributes (:attributes options)]
+    (.setAttributes bootstrap attributes)))
+
+(defn make-bootstrap
   [options]
-  (let [classloader (.getContextClassLoader (Thread/currentThread))
+  (let [classloader (or (:classloader options)
+                      (.getContextClassLoader (Thread/currentThread)))
         properties (config/options->Properties options)
-        configurator (or (:configurator options) identity)]
+        configurator (or (:configurator options)
+                       identity)]
 
     (doto (Bootstrap. classloader)
       (.setConfig properties)
+      (set-conf-paths options)
       (set-cmd-paths options)
+      (set-attributes options)
       (configurator))))
 
 (defn start
   [options]
-  (doto (make-server options)
+  (doto (make-bootstrap options)
     (.bootstrap)))
 
 (defn stop
-  [^Bootstrap server]
-  {:pre [(instance? Bootstrap server)]}
-  (.shutdown server))
+  [^Bootstrap bootstrap]
+  {:pre [(instance? Bootstrap bootstrap)]}
+  (.shutdown bootstrap))
