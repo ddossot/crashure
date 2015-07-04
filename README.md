@@ -20,7 +20,8 @@ TBD
 ## TODO
 
 - Authentication config
-- SSH config
-- Embedded Clojure REPL
+- SSH connector config
+- Web connector config
+- Clojure impl of `org.crsh.lang.spi.Repl`
 
 **Copyright © 2015 David Dossot - MIT License**
