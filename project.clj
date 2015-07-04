@@ -16,6 +16,7 @@
    [org.clojure/clojure "1.6.0"]
 
    [org.crashub/crash.shell ~crash-version]
+   [prismatic/schema "0.4.3"]
   ]
 
   :release-tasks [["vcs" "assert-committed"]
