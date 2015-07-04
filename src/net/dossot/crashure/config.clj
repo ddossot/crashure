@@ -17,13 +17,15 @@
 (def CrashConfigSchema
   "Schema for configuring CRaSH:
 
-   :configurator   - a function called with the CRaSH Bootstrap instance
-   :commands-paths - a vector of paths from which commands are loaded
-                     (defaults to \"/crash/commands/\")
-   :telnet         - the configuration of the telnet connector (optional)"
-  {(optional-key :configurator)    (=> Any Bootstrap)
-   (optional-key :commands-paths)  [(either Str File FSDriver)]
-   (optional-key :telnet)          TelnetConfigSchema})
+   :configurator  - a function called with the CRaSH Bootstrap instance
+   :conf-paths    - a vector of paths from which configs are loaded
+   :cmd-paths     - a vector of paths from which commands are loaded
+                    (defaults to [(Path/get \"/crash/commands/\")])
+   :telnet        - the configuration of the telnet connector (optional)"
+  {(optional-key :configurator)  (=> Any Bootstrap)
+   (optional-key :conf-paths)    [(either Str Path File FSDriver)]
+   (optional-key :cmd-paths)     [(either Str Path File FSDriver)]
+   (optional-key :telnet)        TelnetConfigSchema})
 
 (defn- set-telnet
   [props telnet-conf]

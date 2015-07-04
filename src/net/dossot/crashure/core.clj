@@ -4,14 +4,18 @@
            org.crsh.vfs.Path
            java.util.Properties))
 
-(defn- set-command-paths
+(defn- set-conf-paths
+  [server options]
+  (doseq [cp (:conf-paths options)]
+    (.addToConfPath server cp)))
+
+(defn- set-cmd-paths
   [server options]
   (let [cps (or
-              (:commands-paths options)
-              ["/crash/commands/"])]
+              (:cmd-paths options)
+              [(Path/get "/crash/commands/")])]
     (doseq [cp cps]
-      (.addToCmdPath server
-        (Path/get cp)))))
+      (.addToCmdPath server cp))))
 
 (defn make-server
   [options]
@@ -21,7 +25,7 @@
 
     (doto (Bootstrap. classloader)
       (.setConfig properties)
-      (set-command-paths options)
+      (set-cmd-paths options)
       (configurator))))
 
 (defn start
