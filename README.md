@@ -9,6 +9,10 @@ ___________________          _________ ___ ___
 
 </pre>
 
+[![Build Status](https://travis-ci.org/ddossot/crashure.svg)](https://travis-ci.org/ddossot/crashure)
+<br/>
+[![Clojars Project](http://clojars.org/net.dossot/crashure/latest-version.svg)](http://clojars.org/net.dossot/crashure)
+
 # CRaSHure
 
 [CRaSH Shell](http://www.crashub.org/) for Clojure.
